@@ -15,10 +15,13 @@ const NAV_ITEMS = [
 export function BottomNav() {
   const pathname = usePathname()
 
+  // 인트로 화면에서는 BottomNav 숨김
+  if (pathname === '/') return null
+
   return (
     <nav className={nav}>
       {NAV_ITEMS.map(({ href, label, icon }) => {
-        const isActive = pathname.startsWith(href)
+        const isActive = pathname === href || pathname.startsWith(href + '/')
         const variant = isActive ? 'active' : 'inactive'
         return (
           <Link key={href} href={href} className={navItem}>
