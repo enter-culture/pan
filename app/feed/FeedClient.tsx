@@ -2,9 +2,10 @@
 
 import { useState } from 'react'
 
+import type { Category, Short } from '@/types'
+
 import { CategoryTabs } from '@/components/feed/CategoryTabs'
 import { ShortCard } from '@/components/feed/ShortCard'
-import type { Category, Short } from '@/types'
 
 import { grid } from './feed.css'
 

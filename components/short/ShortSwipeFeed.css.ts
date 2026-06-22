@@ -3,25 +3,26 @@ import { style } from '@vanilla-extract/css'
 import { vars } from '@/styles/theme.css'
 
 export const container = style({
-  position: 'relative',
-  width: '100%',
-  minHeight: 'calc(100dvh - 64px)',
+  position: 'fixed',
+  inset: 0,
+  zIndex: 110,
+  overflowY: 'scroll',
+  scrollSnapType: 'y mandatory',
   backgroundColor: '#000',
-  display: 'flex',
-  flexDirection: 'column',
+  // hide scrollbar
+  scrollbarWidth: 'none',
+  '::-webkit-scrollbar': {
+    display: 'none',
+  },
 })
 
-export const heroWrapper = style({
+export const slide = style({
   position: 'relative',
-  flex: 1,
   width: '100%',
-  aspectRatio: '9/16',
+  height: '100dvh',
+  scrollSnapAlign: 'start',
+  flexShrink: 0,
   overflow: 'hidden',
-  '@media': {
-    'screen and (min-width: 768px)': {
-      aspectRatio: '4/5',
-    },
-  },
 })
 
 export const heroImage = style({
@@ -30,10 +31,20 @@ export const heroImage = style({
   objectFit: 'cover',
 })
 
-export const backButton = style({
+export const topBar = style({
   position: 'absolute',
-  top: vars.spacing.md,
-  left: vars.spacing.md,
+  top: 0,
+  left: 0,
+  right: 0,
+  padding: vars.spacing.md,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  background: 'linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, transparent 100%)',
+  zIndex: 10,
+})
+
+export const backButton = style({
   width: '36px',
   height: '36px',
   borderRadius: vars.borderRadius.full,
@@ -43,79 +54,71 @@ export const backButton = style({
   alignItems: 'center',
   justifyContent: 'center',
   fontSize: '18px',
-  zIndex: 10,
-  cursor: 'pointer',
   border: 'none',
+  cursor: 'pointer',
 })
 
-export const titleOverlay = style({
+export const bottomArea = style({
   position: 'absolute',
   bottom: 0,
   left: 0,
   right: 0,
   padding: `${vars.spacing.xl} ${vars.spacing.md} ${vars.spacing.md}`,
-  background: 'linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 100%)',
+  background: 'linear-gradient(to top, rgba(0,0,0,0.75) 0%, transparent 100%)',
   zIndex: 10,
+  display: 'flex',
+  flexDirection: 'column',
+  gap: vars.spacing.sm,
 })
 
-export const shortTitle = style({
+export const titleText = style({
   fontSize: vars.fontSize.lg,
   fontWeight: vars.fontWeight.bold,
   color: vars.color.white,
   lineHeight: '1.4',
 })
 
-export const bottomBar = style({
-  padding: vars.spacing.md,
-  backgroundColor: vars.color.white,
+export const actionRow = style({
   display: 'flex',
   gap: vars.spacing.sm,
   alignItems: 'center',
 })
 
 export const likeButton = style({
+  width: '44px',
+  height: '44px',
   flexShrink: 0,
-  width: '48px',
-  height: '48px',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
   borderRadius: vars.borderRadius.md,
-  border: `1px solid ${vars.color.border}`,
-  backgroundColor: vars.color.white,
+  border: '1px solid rgba(255,255,255,0.4)',
+  backgroundColor: 'rgba(0,0,0,0.3)',
   cursor: 'pointer',
-  transition: 'border-color 0.15s',
-  ':hover': {
-    borderColor: vars.color.accent,
-  },
 })
 
 export const likeButtonActive = style({
+  width: '44px',
+  height: '44px',
   flexShrink: 0,
-  width: '48px',
-  height: '48px',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
   borderRadius: vars.borderRadius.md,
   border: `1px solid ${vars.color.accent}`,
-  backgroundColor: '#FFF1ED',
+  backgroundColor: 'rgba(255,77,0,0.2)',
   cursor: 'pointer',
 })
 
 export const detailButton = style({
   flex: 1,
-  padding: vars.spacing.md,
-  backgroundColor: vars.color.primary,
-  color: vars.color.white,
+  height: '44px',
   borderRadius: vars.borderRadius.md,
+  backgroundColor: 'rgba(255,255,255,0.2)',
+  border: '1px solid rgba(255,255,255,0.4)',
+  color: vars.color.white,
   fontSize: vars.fontSize.md,
   fontWeight: vars.fontWeight.semibold,
-  textAlign: 'center',
   cursor: 'pointer',
-  border: 'none',
-  transition: 'opacity 0.15s',
-  ':hover': {
-    opacity: 0.85,
-  },
+  backdropFilter: 'blur(4px)',
 })

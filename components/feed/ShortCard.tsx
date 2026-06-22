@@ -3,7 +3,7 @@ import type { Short } from '@/types'
 import Image from 'next/image'
 import Link from 'next/link'
 
-import { card, imageWrapper, image, title } from './ShortCard.css'
+import { card, image, imageWrapper, title } from './ShortCard.css'
 
 interface ShortCardProps {
   short: Short

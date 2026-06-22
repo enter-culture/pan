@@ -44,10 +44,8 @@ export const navLabel = styleVariants({
 export const navIcon = styleVariants({
   active: {
     color: vars.color.navActive,
-    fontSize: '22px',
   },
   inactive: {
     color: vars.color.navInactive,
-    fontSize: '22px',
   },
 })

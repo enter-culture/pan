@@ -16,13 +16,24 @@ const fadeIn = keyframes({
 export const container = style({
   position: 'fixed',
   inset: 0,
-  background: 'linear-gradient(160deg, #1a0a00 0%, #3d1a00 40%, #6b2d0b 100%)',
+  boxSizing: 'border-box',
+  backgroundImage:
+    'linear-gradient(180deg, rgba(4, 18, 28, 0.18) 0%, rgba(4, 18, 28, 0.04) 42%, rgba(18, 10, 4, 0.4) 100%), url("/intro-heritage.jpg")',
+  backgroundPosition: 'center',
+  backgroundRepeat: 'no-repeat',
+  backgroundSize: 'cover',
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  justifyContent: 'center',
+  justifyContent: 'flex-start',
   gap: vars.spacing.lg,
+  padding: 'clamp(132px, 23svh, 220px) 24px 48px',
   zIndex: 200,
+  '@media': {
+    '(max-height: 600px)': {
+      paddingTop: '64px',
+    },
+  },
 })
 
 export const logo = style({
@@ -30,6 +41,7 @@ export const logo = style({
   fontWeight: vars.fontWeight.bold,
   color: vars.color.white,
   letterSpacing: '-1px',
+  textShadow: '0 2px 14px rgba(0, 0, 0, 0.42)',
   animation: `${fadeIn} 0.6s ease forwards`,
 })
 
@@ -38,6 +50,7 @@ export const tagline = style({
   color: 'rgba(255,255,255,0.85)',
   textAlign: 'center',
   lineHeight: '1.6',
+  textShadow: '0 2px 12px rgba(0, 0, 0, 0.56)',
   animation: `${fadeIn} 0.6s ease 0.2s forwards`,
   opacity: 0,
 })
