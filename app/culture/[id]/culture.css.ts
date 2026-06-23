@@ -29,3 +29,58 @@ export const rightButtons = style({
   display: 'flex',
   gap: vars.spacing.xs,
 })
+
+export const pageWrapper = style({
+  maxWidth: '430px',
+  margin: '0 auto',
+  minHeight: '100vh',
+  backgroundColor: vars.color.background,
+})
+
+export const body = style({
+  padding: `0 ${vars.spacing.md} ${vars.spacing.xxl}`,
+  display: 'flex',
+  flexDirection: 'column',
+  gap: vars.spacing.md,
+})
+
+export const titleText = style({
+  fontSize: vars.fontSize.xl,
+  fontWeight: vars.fontWeight.bold,
+  color: vars.color.primary,
+  margin: 0,
+  lineHeight: '1.4',
+})
+
+export const locationRow = style({
+  display: 'flex',
+  alignItems: 'center',
+  gap: vars.spacing.sm,
+})
+
+export const locationBadge = style({
+  fontSize: vars.fontSize.sm,
+  color: vars.color.accent,
+  fontWeight: vars.fontWeight.medium,
+})
+
+export const description = style({
+  fontSize: vars.fontSize.sm,
+  color: vars.color.secondary,
+  lineHeight: '1.8',
+  margin: 0,
+  whiteSpace: 'pre-line',
+})
+
+export const mapSection = style({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: vars.spacing.sm,
+})
+
+export const sectionTitle = style({
+  fontSize: vars.fontSize.md,
+  fontWeight: vars.fontWeight.semibold,
+  color: vars.color.primary,
+  margin: 0,
+})
