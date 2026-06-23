@@ -1,27 +1,34 @@
 'use client'
 
-import { useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 import type { Short } from '@/types'
 
 import { ShortCard } from '@/components/feed/ShortCard'
 import { useShortHistory } from '@/hooks/useShortHistory'
-import { mockShorts } from '@/data/shorts'
 
 import { emptyState, grid, page, section, sectionCount, sectionHeader, sectionTitle } from './me.css'
 
-function toShorts(ids: string[]): Short[] {
+function toShorts(ids: string[], allShorts: Short[]): Short[] {
   return ids.flatMap((id) => {
-    const s = mockShorts.find((m) => m.id === id)
+    const s = allShorts.find((m) => m.id === id)
     return s ? [s] : []
   })
 }
 
 export default function MePage() {
   const { recentIds, likedIds } = useShortHistory()
+  const [allShorts, setAllShorts] = useState<Short[]>([])
 
-  const recentShorts = useMemo(() => toShorts(recentIds), [recentIds])
-  const likedShorts = useMemo(() => toShorts(likedIds), [likedIds])
+  useEffect(() => {
+    fetch('/api/shorts')
+      .then((res) => res.json())
+      .then(setAllShorts)
+      .catch(() => {})
+  }, [])
+
+  const recentShorts = useMemo(() => toShorts(recentIds, allShorts), [recentIds, allShorts])
+  const likedShorts = useMemo(() => toShorts(likedIds, allShorts), [likedIds, allShorts])
 
   return (
     <div className={page}>
