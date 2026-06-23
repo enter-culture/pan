@@ -5,6 +5,8 @@ import { vars } from '@/styles/theme.css'
 export const container = style({
   position: 'relative',
   width: '100%',
+  maxWidth: '430px',
+  margin: '0 auto',
   minHeight: 'calc(100dvh - 64px)',
   backgroundColor: '#000',
   display: 'flex',

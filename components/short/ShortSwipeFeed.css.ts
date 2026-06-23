@@ -4,12 +4,16 @@ import { vars } from '@/styles/theme.css'
 
 export const container = style({
   position: 'fixed',
-  inset: 0,
+  top: 0,
+  bottom: 0,
+  left: '50%',
+  transform: 'translateX(-50%)',
+  width: '100%',
+  maxWidth: '430px',
   zIndex: 110,
   overflowY: 'scroll',
   scrollSnapType: 'y mandatory',
   backgroundColor: '#000',
-  // hide scrollbar
   scrollbarWidth: 'none',
   '::-webkit-scrollbar': {
     display: 'none',
