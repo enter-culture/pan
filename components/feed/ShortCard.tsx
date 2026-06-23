@@ -16,7 +16,7 @@ export function ShortCard({ short }: ShortCardProps) {
           <video
             src={short.videoUrl}
             className={image}
-            preload="metadata"
+            preload="none"
             muted
             playsInline
           />

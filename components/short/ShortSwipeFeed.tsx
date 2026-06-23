@@ -40,6 +40,7 @@ export function ShortSwipeFeed({ currentId, allShorts }: ShortSwipeFeedProps) {
   const router = useRouter()
   const { addRecent, toggleLike, isLiked } = useShortHistory()
   const [sheetShort, setSheetShort] = useState<Short | null>(null)
+  const [activeIndex, setActiveIndex] = useState(0)
   const $container = useRef<HTMLDivElement>(null)
   const $videos = useRef<Map<string, HTMLVideoElement>>(new Map())
 
@@ -55,6 +56,7 @@ export function ShortSwipeFeed({ currentId, allShorts }: ShortSwipeFeedProps) {
     }
   }
 
+  // 현재 슬라이드 감지 + 재생/정지
   useEffect(() => {
     const containerEl = $container.current
     if (!containerEl) return
@@ -68,6 +70,8 @@ export function ShortSwipeFeed({ currentId, allShorts }: ShortSwipeFeedProps) {
           if (!video) return
 
           if (entry.isIntersecting) {
+            const idx = feed.findIndex((s) => s.id === id)
+            setActiveIndex(idx)
             video.currentTime = 0
             video.play().catch(() => {})
             addRecent(id)
@@ -87,9 +91,13 @@ export function ShortSwipeFeed({ currentId, allShorts }: ShortSwipeFeedProps) {
     const containerEl = $container.current
     if (!containerEl) return
     const nextSlide = containerEl.children[index + 1] as HTMLElement | undefined
-    if (nextSlide) {
-      nextSlide.scrollIntoView({ behavior: 'smooth' })
-    }
+    nextSlide?.scrollIntoView({ behavior: 'smooth' })
+  }
+
+  // 현재 ± 1 슬라이드만 src 설정 (나머지는 lazy)
+  const getSrc = (index: number, videoUrl: string | undefined) => {
+    if (!videoUrl) return undefined
+    return Math.abs(index - activeIndex) <= 1 ? videoUrl : undefined
   }
 
   return (
@@ -97,17 +105,16 @@ export function ShortSwipeFeed({ currentId, allShorts }: ShortSwipeFeedProps) {
       <div ref={$container} className={container}>
         {feed.map((short, index) => (
           <div key={short.id} className={slide} data-short-id={short.id}>
-            {short.videoUrl && (
-              <video
-                ref={setVideoRef(short.id)}
-                src={short.videoUrl}
-                className={heroVideo}
-                muted
-                playsInline
-                loop={false}
-                onEnded={() => handleEnded(index)}
-              />
-            )}
+            <video
+              ref={setVideoRef(short.id)}
+              src={getSrc(index, short.videoUrl)}
+              className={heroVideo}
+              muted
+              playsInline
+              loop={false}
+              preload="none"
+              onEnded={() => handleEnded(index)}
+            />
 
             <div className={topBar}>
               <button className={backButton} onClick={() => router.back()}>

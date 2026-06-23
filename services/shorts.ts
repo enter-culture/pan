@@ -1,7 +1,6 @@
 import type { Category, Short } from '@/types'
 
 import pool from '@/lib/db'
-import { getPresignedUrl } from '@/lib/r2'
 
 interface VideoRow {
   id: number
@@ -23,14 +22,13 @@ const CATEGORY_MAP: Record<string, Exclude<Category, '전체'>> = {
   '줄타기': '축제',
 }
 
-async function toShort(row: VideoRow): Promise<Short> {
+function toShort(row: VideoRow): Short {
   const category: Exclude<Category, '전체'> = CATEGORY_MAP[row.title] ?? '전통'
-  const videoUrl = await getPresignedUrl(row.r2key)
   return {
     id: String(row.id),
     title: row.title,
     thumbnail: '',
-    videoUrl,
+    videoUrl: `/api/video/${row.id}`,
     category,
     description: row.description ?? '',
     hashtags: [row.title, row.region, row.category].filter(Boolean) as string[],
@@ -41,7 +39,7 @@ async function toShort(row: VideoRow): Promise<Short> {
 
 export async function getShorts(category?: Category): Promise<Short[]> {
   const { rows } = await pool.query<VideoRow>('SELECT * FROM videos ORDER BY id')
-  const shorts = await Promise.all(rows.map(toShort))
+  const shorts = rows.map(toShort)
 
   if (!category || category === '전체') {
     return shorts
@@ -69,5 +67,5 @@ export async function searchShorts(query: string): Promise<Short[]> {
      ORDER BY id`,
     [`%${q}%`],
   )
-  return Promise.all(rows.map(toShort))
+  return rows.map(toShort)
 }
