@@ -3,8 +3,8 @@ import { keyframes, style } from '@vanilla-extract/css'
 import { vars } from '@/styles/theme.css'
 
 const slideUp = keyframes({
-  from: { transform: 'translateY(100%)' },
-  to: { transform: 'translateY(0)' },
+  from: { transform: 'translateX(-50%) translateY(100%)' },
+  to: { transform: 'translateX(-50%) translateY(0)' },
 })
 
 export const backdrop = style({
