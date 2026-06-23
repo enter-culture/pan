@@ -1,8 +1,7 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
-import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 
 import type { Short } from '@/types'
@@ -15,10 +14,11 @@ import {
   bottomBar,
   container,
   detailButton,
-  heroImage,
+  heroVideo,
   heroWrapper,
   likeButton,
   likeButtonActive,
+  playPauseIndicator,
   shortTitle,
   titleOverlay,
 } from './ShortDetail.css'
@@ -37,6 +37,9 @@ function HeartIcon({ filled }: { filled: boolean }) {
 
 export function ShortDetail({ short }: ShortDetailProps) {
   const router = useRouter()
+  const $videoRef = useRef<HTMLVideoElement>(null)
+  const [isPlaying, setIsPlaying] = useState(true)
+  const [showIndicator, setShowIndicator] = useState(false)
   const [isSheetOpen, setIsSheetOpen] = useState(false)
   const { addRecent, toggleLike, isLiked } = useShortHistory()
 
@@ -46,20 +49,52 @@ export function ShortDetail({ short }: ShortDetailProps) {
 
   const liked = isLiked(short.id)
 
+  const handleVideoClick = () => {
+    const video = $videoRef.current
+    if (!video) return
+
+    if (video.paused) {
+      video.play()
+      setIsPlaying(true)
+    } else {
+      video.pause()
+      setIsPlaying(false)
+    }
+
+    setShowIndicator(true)
+    setTimeout(() => setShowIndicator(false), 800)
+  }
+
   return (
     <div className={container}>
       <div className={heroWrapper}>
         <button className={backButton} onClick={() => router.back()}>
           ←
         </button>
-        <Image
-          src={short.thumbnail}
-          alt={short.title}
-          fill
-          className={heroImage}
-          sizes="100vw"
-          priority
-        />
+
+        {short.videoUrl ? (
+          <video
+            ref={$videoRef}
+            src={short.videoUrl}
+            className={heroVideo}
+            autoPlay
+            loop
+            muted
+            playsInline
+            onClick={handleVideoClick}
+          />
+        ) : null}
+
+        {showIndicator && (
+          <div className={playPauseIndicator}>
+            {isPlaying ? (
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+            ) : (
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg>
+            )}
+          </div>
+        )}
+
         <div className={titleOverlay}>
           <h1 className={shortTitle}>{short.title}</h1>
         </div>

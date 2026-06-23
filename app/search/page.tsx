@@ -5,16 +5,21 @@ import { useState } from 'react'
 import type { Short } from '@/types'
 
 import { ShortCard } from '@/components/feed/ShortCard'
-import { searchShorts } from '@/services/shorts'
 
 import { emptyState, grid, input, page, resultHeader, searchBar, searchButton } from './search.css'
 
 export default function SearchPage() {
   const [query, setQuery] = useState('')
   const [results, setResults] = useState<Short[] | null>(null)
+  const [isLoading, setIsLoading] = useState(false)
 
-  const handleSearch = () => {
-    setResults(searchShorts(query))
+  const handleSearch = async () => {
+    if (!query.trim()) return
+    setIsLoading(true)
+    const res = await fetch(`/api/search?q=${encodeURIComponent(query)}`)
+    const data: Short[] = await res.json()
+    setResults(data)
+    setIsLoading(false)
   }
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -39,15 +44,15 @@ export default function SearchPage() {
         </button>
       </div>
 
-      {results === null && (
+      {!isLoading && results === null && (
         <p className={emptyState}>검색어를 입력하고<br />검색 버튼을 눌러보세요</p>
       )}
 
-      {results !== null && results.length === 0 && (
+      {!isLoading && results !== null && results.length === 0 && (
         <p className={emptyState}>'{query}'에 대한 검색 결과가 없어요</p>
       )}
 
-      {results !== null && results.length > 0 && (
+      {!isLoading && results !== null && results.length > 0 && (
         <>
           <p className={resultHeader}>{results.length}개의 숏폼</p>
           <div className={grid}>

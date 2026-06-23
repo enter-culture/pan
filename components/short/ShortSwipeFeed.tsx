@@ -1,8 +1,7 @@
 'use client'
 
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
-import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 
 import type { Short } from '@/types'
@@ -16,7 +15,7 @@ import {
   bottomArea,
   container,
   detailButton,
-  heroImage,
+  heroVideo,
   likeButton,
   likeButtonActive,
   slide,
@@ -42,55 +41,73 @@ export function ShortSwipeFeed({ currentId, allShorts }: ShortSwipeFeedProps) {
   const { addRecent, toggleLike, isLiked } = useShortHistory()
   const [sheetShort, setSheetShort] = useState<Short | null>(null)
   const $container = useRef<HTMLDivElement>(null)
+  const $videos = useRef<Map<string, HTMLVideoElement>>(new Map())
 
-  const feed = useMemo(() => {
-    const current = allShorts.find((s) => s.id === currentId)
-    const rest = allShorts
-      .filter((s) => s.id !== currentId)
-      .sort(() => Math.random() - 0.5)
-    return current ? [current, ...rest] : rest
-  }, [currentId, allShorts])
+  const current = allShorts.find((s) => s.id === currentId)
+  const rest = allShorts.filter((s) => s.id !== currentId)
+  const feed = current ? [current, ...rest] : rest
 
-  // record first short as viewed on mount
-  useEffect(() => {
-    if (feed[0]) {
-      addRecent(feed[0].id)
+  const setVideoRef = (id: string) => (el: HTMLVideoElement | null) => {
+    if (el) {
+      $videos.current.set(id, el)
+    } else {
+      $videos.current.delete(id)
     }
-  }, [feed, addRecent])
+  }
 
-  // record view as user scrolls to each new slide
   useEffect(() => {
-    const el = $container.current
-    if (!el) return
+    const containerEl = $container.current
+    if (!containerEl) return
 
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
+          const id = (entry.target as HTMLElement).dataset.shortId
+          if (!id) return
+          const video = $videos.current.get(id)
+          if (!video) return
+
           if (entry.isIntersecting) {
-            const id = (entry.target as HTMLElement).dataset.shortId
-            if (id) addRecent(id)
+            video.currentTime = 0
+            video.play().catch(() => {})
+            addRecent(id)
+          } else {
+            video.pause()
           }
         })
       },
-      { root: el, threshold: 0.6 },
+      { root: containerEl, threshold: 0.8 },
     )
 
-    el.querySelectorAll('[data-short-id]').forEach((slide) => observer.observe(slide))
+    containerEl.querySelectorAll('[data-short-id]').forEach((el) => observer.observe(el))
     return () => observer.disconnect()
   }, [feed, addRecent])
+
+  const handleEnded = (index: number) => {
+    const containerEl = $container.current
+    if (!containerEl) return
+    const nextSlide = containerEl.children[index + 1] as HTMLElement | undefined
+    if (nextSlide) {
+      nextSlide.scrollIntoView({ behavior: 'smooth' })
+    }
+  }
 
   return (
     <>
       <div ref={$container} className={container}>
-        {feed.map((short) => (
+        {feed.map((short, index) => (
           <div key={short.id} className={slide} data-short-id={short.id}>
-            <Image
-              src={short.thumbnail}
-              alt={short.title}
-              fill
-              className={heroImage}
-              sizes="100vw"
-            />
+            {short.videoUrl && (
+              <video
+                ref={setVideoRef(short.id)}
+                src={short.videoUrl}
+                className={heroVideo}
+                muted
+                playsInline
+                loop={false}
+                onEnded={() => handleEnded(index)}
+              />
+            )}
 
             <div className={topBar}>
               <button className={backButton} onClick={() => router.back()}>

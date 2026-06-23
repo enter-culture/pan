@@ -27,6 +27,20 @@ export const image = style({
   objectFit: 'cover',
 })
 
+export const playIcon = style({
+  position: 'absolute',
+  bottom: vars.spacing.sm,
+  right: vars.spacing.sm,
+  width: '28px',
+  height: '28px',
+  borderRadius: '50%',
+  backgroundColor: 'rgba(0,0,0,0.55)',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  pointerEvents: 'none',
+})
+
 export const title = style({
   padding: `${vars.spacing.sm} ${vars.spacing.xs}`,
   fontSize: vars.fontSize.sm,

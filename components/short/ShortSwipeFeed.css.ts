@@ -25,10 +25,11 @@ export const slide = style({
   overflow: 'hidden',
 })
 
-export const heroImage = style({
+export const heroVideo = style({
   width: '100%',
   height: '100%',
   objectFit: 'cover',
+  display: 'block',
 })
 
 export const topBar = style({

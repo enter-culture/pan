@@ -4,6 +4,7 @@ export interface Short {
   id: string
   title: string
   thumbnail: string
+  videoUrl?: string
   category: Exclude<Category, '전체'>
   description: string
   hashtags: string[]

@@ -1,30 +1,73 @@
 import type { Category, Short } from '@/types'
 
-import { mockShorts } from '@/data/shorts'
+import pool from '@/lib/db'
+import { getPresignedUrl } from '@/lib/r2'
+
+interface VideoRow {
+  id: number
+  title: string
+  description: string | null
+  category: string
+  sub_category: string | null
+  region: string | null
+  r2key: string
+  heritage_id: string | null
+  created_at: string
+}
+
+const CATEGORY_MAP: Record<string, Exclude<Category, '전체'>> = {
+  '강강술래': '춤',
+  '하회별신굿탈놀이': '춤',
+  '판소리': '음악',
+  '아리랑': '음악',
+  '줄타기': '축제',
+}
+
+async function toShort(row: VideoRow): Promise<Short> {
+  const category: Exclude<Category, '전체'> = CATEGORY_MAP[row.title] ?? '전통'
+  const videoUrl = await getPresignedUrl(row.r2key)
+  return {
+    id: String(row.id),
+    title: row.title,
+    thumbnail: '',
+    videoUrl,
+    category,
+    description: row.description ?? '',
+    hashtags: [row.title, row.region, row.category].filter(Boolean) as string[],
+    relatedCultureId: row.heritage_id ?? '',
+    createdAt: new Date(row.created_at).toISOString().slice(0, 10),
+  }
+}
 
 export async function getShorts(category?: Category): Promise<Short[]> {
+  const { rows } = await pool.query<VideoRow>('SELECT * FROM videos ORDER BY id')
+  const shorts = await Promise.all(rows.map(toShort))
+
   if (!category || category === '전체') {
-    return mockShorts
+    return shorts
   }
-  return mockShorts.filter((s) => s.category === category)
+  return shorts.filter((s) => s.category === category)
 }
 
 export async function getShortById(id: string): Promise<Short> {
-  const short = mockShorts.find((s) => s.id === id)
-  if (!short) {
+  const { rows } = await pool.query<VideoRow>('SELECT * FROM videos WHERE id = $1', [Number(id)])
+  if (!rows[0]) {
     throw new Error('Short not found')
   }
-  return short
+  return toShort(rows[0])
 }
 
-export function searchShorts(query: string): Short[] {
+export async function searchShorts(query: string): Promise<Short[]> {
   const q = query.trim().toLowerCase()
   if (!q) return []
-  return mockShorts.filter(
-    (s) =>
-      s.title.toLowerCase().includes(q) ||
-      s.description.toLowerCase().includes(q) ||
-      s.category.toLowerCase().includes(q) ||
-      s.hashtags.some((tag) => tag.toLowerCase().includes(q)),
+
+  const { rows } = await pool.query<VideoRow>(
+    `SELECT * FROM videos
+     WHERE LOWER(title) LIKE $1
+        OR LOWER(description) LIKE $1
+        OR LOWER(region) LIKE $1
+     ORDER BY id`,
+    [`%${q}%`],
   )
+  return Promise.all(rows.map(toShort))
 }

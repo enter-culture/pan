@@ -30,6 +30,30 @@ export const heroImage = style({
   objectFit: 'cover',
 })
 
+export const heroVideo = style({
+  width: '100%',
+  height: '100%',
+  objectFit: 'cover',
+  display: 'block',
+})
+
+export const playPauseIndicator = style({
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: '60px',
+  height: '60px',
+  borderRadius: '50%',
+  backgroundColor: 'rgba(0,0,0,0.5)',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  pointerEvents: 'none',
+  zIndex: 10,
+  transition: 'opacity 0.2s',
+})
+
 export const backButton = style({
   position: 'absolute',
   top: vars.spacing.md,
