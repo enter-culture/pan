@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 
 import { useRouter } from 'next/navigation'
 
@@ -43,9 +43,11 @@ export function ShortSwipeFeed({ currentId, allShorts }: ShortSwipeFeedProps) {
   const $container = useRef<HTMLDivElement>(null)
   const $videos = useRef<Map<string, HTMLVideoElement>>(new Map())
 
-  const current = allShorts.find((s) => s.id === currentId)
-  const rest = allShorts.filter((s) => s.id !== currentId)
-  const feed = current ? [current, ...rest] : rest
+  const feed = useMemo(() => {
+    const current = allShorts.find((s) => s.id === currentId)
+    const rest = allShorts.filter((s) => s.id !== currentId)
+    return current ? [current, ...rest] : rest
+  }, [allShorts, currentId])
 
   const setVideoRef = (id: string) => (el: HTMLVideoElement | null) => {
     if (el) {
@@ -55,7 +57,18 @@ export function ShortSwipeFeed({ currentId, allShorts }: ShortSwipeFeedProps) {
     }
   }
 
-  // 현재 슬라이드 감지 + 재생/정지
+  // activeIndex가 바뀔 때 재생/정지
+  useEffect(() => {
+    $videos.current.forEach((video, id) => {
+      if (feed[activeIndex]?.id === id) {
+        video.play().catch(() => {})
+      } else {
+        video.pause()
+      }
+    })
+  }, [activeIndex, feed])
+
+  // IntersectionObserver: 어떤 슬라이드가 보이는지만 감지
   useEffect(() => {
     const containerEl = $container.current
     if (!containerEl) return
@@ -63,19 +76,13 @@ export function ShortSwipeFeed({ currentId, allShorts }: ShortSwipeFeedProps) {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
+          if (!entry.isIntersecting) return
           const id = (entry.target as HTMLElement).dataset.shortId
           if (!id) return
-          const video = $videos.current.get(id)
-          if (!video) return
-
-          if (entry.isIntersecting) {
-            const idx = feed.findIndex((s) => s.id === id)
+          const idx = feed.findIndex((s) => s.id === id)
+          if (idx !== -1) {
             setActiveIndex(idx)
-            video.currentTime = 0
-            video.play().catch(() => {})
             addRecent(id)
-          } else {
-            video.pause()
           }
         })
       },
@@ -93,13 +100,11 @@ export function ShortSwipeFeed({ currentId, allShorts }: ShortSwipeFeedProps) {
     nextSlide?.scrollIntoView({ behavior: 'smooth' })
   }
 
-  // 현재 ± 1 슬라이드만 src 설정 (나머지는 lazy)
   const getSrc = (index: number, videoUrl: string | undefined) => {
     if (!videoUrl) return undefined
     return Math.abs(index - activeIndex) <= 1 ? videoUrl : undefined
   }
 
-  // 다음 슬라이드는 metadata preload로 API presigned URL을 미리 warm-up
   const getPreload = (index: number): 'auto' | 'metadata' | 'none' => {
     if (index === activeIndex) return 'auto'
     if (index === activeIndex + 1) return 'metadata'
