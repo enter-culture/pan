@@ -1,8 +1,10 @@
+'use client'
+
 import type { Short } from '@/types'
 
 import Link from 'next/link'
 
-import { card, image, imageWrapper, playIcon, title } from './ShortCard.css'
+import { card, image, imageWrapper, title } from './ShortCard.css'
 
 interface ShortCardProps {
   short: Short
@@ -16,9 +18,12 @@ export function ShortCard({ short }: ShortCardProps) {
           <video
             src={short.videoUrl}
             className={image}
-            preload="none"
+            preload="metadata"
             muted
             playsInline
+            onLoadedMetadata={(e) => {
+              e.currentTarget.currentTime = 0.1
+            }}
           />
         ) : null}
       </div>
