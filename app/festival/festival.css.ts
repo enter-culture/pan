@@ -50,6 +50,17 @@ export const cardImage = style({
   backgroundColor: vars.color.surface,
 })
 
+export const cardPlaceholder = style({
+  width: '100%',
+  aspectRatio: '16/9',
+  backgroundColor: vars.color.surface,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  fontSize: vars.fontSize.sm,
+  color: vars.color.muted,
+})
+
 export const cardBody = style({
   display: 'flex',
   flexDirection: 'column',
@@ -57,16 +68,20 @@ export const cardBody = style({
   padding: vars.spacing.md,
 })
 
+export const cardBadge = style({
+  alignSelf: 'flex-start',
+  fontSize: vars.fontSize.xs,
+  fontWeight: vars.fontWeight.semibold,
+  color: vars.color.accent,
+  backgroundColor: '#FFF1ED',
+  padding: `2px ${vars.spacing.sm}`,
+  borderRadius: vars.borderRadius.full,
+})
+
 export const cardName = style({
   fontSize: vars.fontSize.md,
   fontWeight: vars.fontWeight.bold,
   color: vars.color.primary,
-  lineHeight: '1.4',
-})
-
-export const cardSub = style({
-  fontSize: vars.fontSize.sm,
-  color: vars.color.secondary,
   lineHeight: '1.4',
 })
 
@@ -79,4 +94,11 @@ export const cardPeriod = style({
   fontSize: vars.fontSize.xs,
   color: vars.color.accent,
   fontWeight: vars.fontWeight.medium,
+})
+
+export const emptyState = style({
+  padding: `${vars.spacing.xxl} ${vars.spacing.md}`,
+  textAlign: 'center',
+  fontSize: vars.fontSize.sm,
+  color: vars.color.muted,
 })

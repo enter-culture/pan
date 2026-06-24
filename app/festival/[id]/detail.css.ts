@@ -10,24 +10,22 @@ export const pageWrapper = style({
   backgroundColor: vars.color.background,
 })
 
-export const gallery = style({
-  display: 'flex',
-  gap: vars.spacing.sm,
-  overflowX: 'auto',
-  padding: `0 ${vars.spacing.md}`,
-  scrollbarWidth: 'none',
-  selectors: {
-    '&::-webkit-scrollbar': { display: 'none' },
-  },
-})
-
-export const galleryImage = style({
-  width: '280px',
+export const hero = style({
+  width: '100%',
   aspectRatio: '16/10',
   objectFit: 'cover',
-  borderRadius: vars.borderRadius.md,
   backgroundColor: vars.color.surface,
-  flexShrink: 0,
+})
+
+export const heroPlaceholder = style({
+  width: '100%',
+  aspectRatio: '16/10',
+  backgroundColor: vars.color.surface,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  fontSize: vars.fontSize.sm,
+  color: vars.color.muted,
 })
 
 export const body = style({
@@ -37,10 +35,14 @@ export const body = style({
   padding: `${vars.spacing.lg} ${vars.spacing.md} ${vars.spacing.xxl}`,
 })
 
-export const titleBlock = style({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: vars.spacing.xs,
+export const badge = style({
+  alignSelf: 'flex-start',
+  fontSize: vars.fontSize.xs,
+  fontWeight: vars.fontWeight.semibold,
+  color: vars.color.accent,
+  backgroundColor: '#FFF1ED',
+  padding: `2px ${vars.spacing.sm}`,
+  borderRadius: vars.borderRadius.full,
 })
 
 export const name = style({
@@ -50,29 +52,16 @@ export const name = style({
   lineHeight: '1.4',
 })
 
-export const subtitle = style({
-  fontSize: vars.fontSize.sm,
-  color: vars.color.secondary,
-  lineHeight: '1.5',
-})
-
-export const section = style({
+export const infoBlock = style({
   display: 'flex',
   flexDirection: 'column',
   gap: vars.spacing.sm,
-})
-
-export const sectionTitle = style({
-  fontSize: vars.fontSize.md,
-  fontWeight: vars.fontWeight.semibold,
-  color: vars.color.primary,
 })
 
 export const infoRow = style({
   display: 'flex',
   gap: vars.spacing.sm,
   fontSize: vars.fontSize.sm,
-  color: vars.color.secondary,
   lineHeight: '1.6',
 })
 
@@ -82,16 +71,20 @@ export const infoLabel = style({
   color: vars.color.muted,
 })
 
-export const bullet = style({
-  display: 'flex',
-  gap: vars.spacing.sm,
+export const infoValue = style({
+  color: vars.color.secondary,
+})
+
+export const description = style({
   fontSize: vars.fontSize.sm,
   color: vars.color.secondary,
-  lineHeight: '1.6',
-  selectors: {
-    '&::before': {
-      content: '"•"',
-      color: vars.color.accent,
-    },
-  },
+  lineHeight: '1.8',
+  whiteSpace: 'pre-line',
+})
+
+export const externalLink = style({
+  alignSelf: 'flex-start',
+  fontSize: vars.fontSize.sm,
+  fontWeight: vars.fontWeight.semibold,
+  color: vars.color.accent,
 })
