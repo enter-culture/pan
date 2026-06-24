@@ -12,10 +12,7 @@ export function CultureHeader() {
       <button className={iconButton} onClick={() => router.back()}>
         ←
       </button>
-      <div className={rightButtons}>
-        <button className={iconButton}>🏠</button>
-        <button className={iconButton}>♡</button>
-      </div>
+      <div className={rightButtons} />
     </div>
   )
 }

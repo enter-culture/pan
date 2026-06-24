@@ -62,7 +62,7 @@ export default async function CulturePage({ params }: PageProps) {
         <h1 className={titleText}>{title}</h1>
         {region && (
           <div className={locationRow}>
-            <span className={locationBadge}>📍 {region}</span>
+            <span className={locationBadge}>{region}</span>
           </div>
         )}
         {videoDesc && <p className={description}>{videoDesc}</p>}
