@@ -100,30 +100,16 @@ const likeButtonBase = style({
   position: 'absolute',
   bottom: vars.spacing.md,
   right: vars.spacing.md,
-  width: '48px',
-  height: '48px',
-  borderRadius: vars.borderRadius.full,
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
   cursor: 'pointer',
   zIndex: 10,
-  backdropFilter: 'blur(4px)',
-  transition: 'background-color 0.2s ease, border-color 0.2s ease',
+  background: 'none',
+  border: 'none',
+  padding: vars.spacing.xs,
 })
 
-export const likeButton = style([
-  likeButtonBase,
-  {
-    backgroundColor: 'rgba(0,0,0,0.4)',
-    border: '1px solid rgba(255,255,255,0.35)',
-  },
-])
+export const likeButton = style([likeButtonBase])
 
-export const likeButtonActive = style([
-  likeButtonBase,
-  {
-    backgroundColor: 'rgba(255,77,0,0.25)',
-    border: `1px solid ${vars.color.accent}`,
-  },
-])
+export const likeButtonActive = style([likeButtonBase])
