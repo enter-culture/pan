@@ -100,6 +100,13 @@ export function ShortSwipeFeed({ currentId, allShorts }: ShortSwipeFeedProps) {
     return Math.abs(index - activeIndex) <= 1 ? videoUrl : undefined
   }
 
+  // 다음 슬라이드는 metadata preload로 API presigned URL을 미리 warm-up
+  const getPreload = (index: number): 'auto' | 'metadata' | 'none' => {
+    if (index === activeIndex) return 'auto'
+    if (index === activeIndex + 1) return 'metadata'
+    return 'none'
+  }
+
   return (
     <>
       <div ref={$container} className={container}>
@@ -112,7 +119,7 @@ export function ShortSwipeFeed({ currentId, allShorts }: ShortSwipeFeedProps) {
               muted
               playsInline
               loop={false}
-              preload="none"
+              preload={getPreload(index)}
               onEnded={() => handleEnded(index)}
             />
 
