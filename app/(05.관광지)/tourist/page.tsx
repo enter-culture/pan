@@ -19,7 +19,7 @@ interface HeritageRow {
 }
 
 interface PageProps {
-  searchParams: Promise<{ type?: string }>
+  searchParams: Promise<{ type?: string; q?: string }>
 }
 
 const CONTENT_TYPE_LABEL: Record<string, string> = {
@@ -29,27 +29,32 @@ const CONTENT_TYPE_LABEL: Record<string, string> = {
 }
 
 export default async function TouristPage({ searchParams }: PageProps) {
-  const { type } = await searchParams
+  const { type, q } = await searchParams
 
   const { rows } = await pool.query<HeritageRow>(
     `SELECT id, name, content_type, region, address
      FROM heritage
      WHERE ($1::text IS NULL OR content_type = $1)
+       AND ($2::text IS NULL OR name ILIKE '%' || $2 || '%')
      ORDER BY content_type, name
      LIMIT 100`,
-    [type ?? null],
+    [type ?? null, q ?? null],
   )
 
   return (
     <div className={pageWrapper}>
       <div className={topBar}>
         <BackButton />
-        <h1 className={pageTitle}>관광지 추천</h1>
+        <h1 className={pageTitle}>
+          {q ? `'${q}' 관련 관광지` : '관광지 추천'}
+        </h1>
       </div>
 
-      <Suspense>
-        <FilterTabs />
-      </Suspense>
+      {!q && (
+        <Suspense>
+          <FilterTabs />
+        </Suspense>
+      )}
 
       <div className={list}>
         {rows.length === 0 ? (
