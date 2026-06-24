@@ -38,7 +38,7 @@ export function ShortInfoSheet({ short, onClose }: ShortInfoSheetProps) {
               <span key={tag} className={hashtag}>{tag}</span>
             ))}
           </div>
-          <Link href={`/culture/${short.id}`} className={cultureButton}>
+          <Link href="/festival" className={cultureButton}>
             관련 체험/축제 보기
           </Link>
         </div>
