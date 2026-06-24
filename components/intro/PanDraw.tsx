@@ -1,19 +1,17 @@
-'use client'
+import Image from 'next/image'
 
-import dynamic from 'next/dynamic'
-
-import panAnimation from './pan-cursive.json'
 import { lottieWrap } from './PanDraw.css'
-
-const Lottie = dynamic(() => import('lottie-react'), { ssr: false })
 
 export function PanDraw() {
   return (
     <div className={lottieWrap}>
-      <Lottie
-        animationData={panAnimation}
-        loop={false}
-        autoplay={true}
+      <Image
+        src='/intro/pan-signature-joseon.png'
+        alt='pan'
+        width={2024}
+        height={685}
+        preload
+        draggable={false}
       />
     </div>
   )
