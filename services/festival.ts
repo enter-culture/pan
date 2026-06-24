@@ -26,8 +26,20 @@ interface HeritageRow {
   detail_url: string | null
   phone: string | null
   business_hours: string | null
-  start_date: string | null
-  end_date: string | null
+  start_date: string | Date | null
+  end_date: string | Date | null
+}
+
+// DB가 DATE 컬럼을 문자열 또는 Date 객체로 반환할 수 있어 둘 다 안전하게 처리
+function formatDate(value: string | Date | null): string | null {
+  if (!value) return null
+  if (value instanceof Date) {
+    const y = value.getFullYear()
+    const m = String(value.getMonth() + 1).padStart(2, '0')
+    const d = String(value.getDate()).padStart(2, '0')
+    return `${y}-${m}-${d}`
+  }
+  return value.slice(0, 10)
 }
 
 // 체험·축제로 노출할 무형유산 content_type (공연/공방 = 공연·체험)
@@ -48,8 +60,8 @@ function toFestival(row: HeritageRow): Festival {
     detailUrl: row.detail_url,
     phone: row.phone,
     businessHours: row.business_hours,
-    startDate: row.start_date ? row.start_date.slice(0, 10) : null,
-    endDate: row.end_date ? row.end_date.slice(0, 10) : null,
+    startDate: formatDate(row.start_date),
+    endDate: formatDate(row.end_date),
   }
 }
 
