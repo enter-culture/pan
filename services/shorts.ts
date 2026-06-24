@@ -40,8 +40,12 @@ function toShort(row: VideoRow, videoUrl: string): Short {
 
 export async function getShorts(category?: Category): Promise<Short[]> {
   const { rows } = await pool.query<VideoRow>('SELECT * FROM videos ORDER BY id')
-  const urls = await Promise.all(rows.map((row) => getPresignedUrl(row.r2key)))
-  const shorts = rows.map((row, i) => toShort(row, urls[i]))
+  const results = await Promise.allSettled(rows.map((row) => getPresignedUrl(row.r2key)))
+  const shorts = rows.map((row, i) => {
+    const result = results[i]
+    const videoUrl = result.status === 'fulfilled' ? result.value : `/api/video/${row.id}`
+    return toShort(row, videoUrl)
+  })
 
   if (!category || category === '전체') {
     return shorts

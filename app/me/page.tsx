@@ -24,7 +24,7 @@ export default function MePage() {
     fetch('/api/shorts')
       .then((res) => res.json())
       .then(setAllShorts)
-      .catch(() => {})
+      .catch((err) => console.error('[MePage] /api/shorts 실패:', err))
   }, [])
 
   const recentShorts = useMemo(() => toShorts(recentIds, allShorts), [recentIds, allShorts])
