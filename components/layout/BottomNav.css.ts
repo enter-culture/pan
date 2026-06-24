@@ -8,7 +8,7 @@ export const nav = style({
   left: '50%',
   transform: 'translateX(-50%)',
   width: '100%',
-  maxWidth: '1280px',
+  maxWidth: '430px',
   height: '64px',
   backgroundColor: vars.color.white,
   borderTop: `1px solid ${vars.color.border}`,
