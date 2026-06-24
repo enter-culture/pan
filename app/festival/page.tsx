@@ -19,14 +19,19 @@ import {
 
 export const dynamic = 'force-dynamic'
 
+interface PageProps {
+  searchParams: Promise<{ heritage_id?: string }>
+}
+
 const CONTENT_TYPE_LABEL: Record<string, string> = {
   종목: '무형유산',
   공방: '공방·체험',
   공연: '공연·축제',
 }
 
-export default async function FestivalPage() {
-  const festivals = await getFestivals()
+export default async function FestivalPage({ searchParams }: PageProps) {
+  const { heritage_id } = await searchParams
+  const festivals = await getFestivals(heritage_id)
 
   return (
     <main className={pageWrapper}>

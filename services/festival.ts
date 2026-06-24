@@ -65,14 +65,17 @@ function toFestival(row: HeritageRow): Festival {
   }
 }
 
-export async function getFestivals(): Promise<Festival[]> {
+export async function getFestivals(heritageId?: string): Promise<Festival[]> {
   const { rows } = await pool.query<HeritageRow>(
     `SELECT ${SELECT_COLUMNS}
      FROM heritage
      WHERE content_type = ANY($1)
+       AND ($2::text IS NULL OR region = (
+         SELECT region FROM heritage WHERE id = $2
+       ))
      ORDER BY (image_url IS NULL), content_type, name
      LIMIT 100`,
-    [FESTIVAL_TYPES],
+    [FESTIVAL_TYPES, heritageId ?? null],
   )
   return rows.map(toFestival)
 }
