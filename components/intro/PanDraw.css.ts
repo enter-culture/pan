@@ -1,6 +1,6 @@
 import { style } from '@vanilla-extract/css'
 
 export const lottieWrap = style({
-  width: 'clamp(160px, 48vw, 220px)',
-  filter: 'drop-shadow(0 2px 14px rgba(0,0,0,0.42))',
+  width: 'clamp(200px, 58vw, 276px)',
+  filter: 'drop-shadow(0 3px 16px rgba(0,0,0,0.48))',
 })

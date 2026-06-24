@@ -1,4 +1,11 @@
-import { globalStyle } from '@vanilla-extract/css'
+import { globalFontFace, globalStyle } from '@vanilla-extract/css'
+
+globalFontFace('Pretendard Variable', {
+  src: 'url("/fonts/PretendardVariable.woff2") format("woff2")',
+  fontWeight: '100 900',
+  fontStyle: 'normal',
+  fontDisplay: 'swap',
+})
 
 globalStyle('*, *::before, *::after', {
   boxSizing: 'border-box',
@@ -8,7 +15,7 @@ globalStyle('*, *::before, *::after', {
 
 globalStyle('html, body', {
   fontFamily:
-    "'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+    "'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Noto Sans KR', 'Segoe UI', sans-serif",
   backgroundColor: '#FFFFFF',
   color: '#1A1A1A',
   WebkitFontSmoothing: 'antialiased',
