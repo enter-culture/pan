@@ -2,15 +2,12 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react'
 
-import { useRouter } from 'next/navigation'
-
 import type { Short } from '@/types'
 
 import { useShortHistory } from '@/hooks/useShortHistory'
 
 import { ShortInfoSheet } from './ShortInfoSheet'
 import {
-  backButton,
   bottomArea,
   container,
   descriptionText,
@@ -18,6 +15,7 @@ import {
   likeButton,
   likeButtonActive,
   muteButton,
+  pauseOverlay,
   slide,
   titleText,
   topBar,
@@ -57,11 +55,11 @@ function SoundOffIcon() {
 }
 
 export function ShortSwipeFeed({ currentId, allShorts }: ShortSwipeFeedProps) {
-  const router = useRouter()
   const { addRecent, toggleLike, isLiked } = useShortHistory()
   const [sheetShort, setSheetShort] = useState<Short | null>(null)
   const [activeIndex, setActiveIndex] = useState(0)
   const [isMuted, setIsMuted] = useState(true)
+  const [isPaused, setIsPaused] = useState(false)
   const $container = useRef<HTMLDivElement>(null)
   const $videos = useRef<Map<string, HTMLVideoElement>>(new Map())
 
@@ -81,6 +79,7 @@ export function ShortSwipeFeed({ currentId, allShorts }: ShortSwipeFeedProps) {
 
   // activeIndex가 바뀔 때 재생/정지
   useEffect(() => {
+    setIsPaused(false)
     $videos.current.forEach((video, id) => {
       if (feed[activeIndex]?.id === id) {
         video.play().catch(() => {})
@@ -89,6 +88,18 @@ export function ShortSwipeFeed({ currentId, allShorts }: ShortSwipeFeedProps) {
       }
     })
   }, [activeIndex, feed])
+
+  const handleVideoTap = () => {
+    const video = $videos.current.get(feed[activeIndex]?.id)
+    if (!video) return
+    if (video.paused) {
+      video.play().catch(() => {})
+      setIsPaused(false)
+    } else {
+      video.pause()
+      setIsPaused(true)
+    }
+  }
 
   // isMuted가 바뀔 때 전체 비디오에 반영
   useEffect(() => {
@@ -154,13 +165,19 @@ export function ShortSwipeFeed({ currentId, allShorts }: ShortSwipeFeedProps) {
               loop={false}
               preload={getPreload(index)}
               onEnded={() => handleEnded(index)}
+              onClick={index === activeIndex ? handleVideoTap : undefined}
             />
 
-            <div className={topBar}>
-              <button className={backButton} onClick={() => router.back()}>
-                ←
-              </button>
-            </div>
+            {index === activeIndex && isPaused && (
+              <div className={pauseOverlay}>
+                <svg width="52" height="52" viewBox="0 0 24 24" fill="rgba(255,255,255,0.9)">
+                  <rect x="6" y="4" width="4" height="16" rx="1" />
+                  <rect x="14" y="4" width="4" height="16" rx="1" />
+                </svg>
+              </div>
+            )}
+
+            <div className={topBar} />
 
             <button
               className={muteButton}

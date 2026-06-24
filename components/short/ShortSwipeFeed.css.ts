@@ -36,6 +36,16 @@ export const heroVideo = style({
   display: 'block',
 })
 
+export const pauseOverlay = style({
+  position: 'absolute',
+  inset: 0,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  zIndex: 5,
+  pointerEvents: 'none',
+})
+
 export const topBar = style({
   position: 'absolute',
   top: 0,
@@ -49,19 +59,6 @@ export const topBar = style({
   zIndex: 10,
 })
 
-export const backButton = style({
-  width: '36px',
-  height: '36px',
-  borderRadius: vars.borderRadius.full,
-  backgroundColor: 'rgba(0,0,0,0.4)',
-  color: vars.color.white,
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  fontSize: '18px',
-  border: 'none',
-  cursor: 'pointer',
-})
 
 export const bottomArea = style({
   position: 'absolute',
