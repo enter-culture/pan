@@ -17,6 +17,7 @@ import {
   heroVideo,
   likeButton,
   likeButtonActive,
+  muteButton,
   slide,
   titleText,
   topBar,
@@ -35,11 +36,32 @@ function HeartIcon({ filled }: { filled: boolean }) {
   )
 }
 
+function SoundOnIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+      <path d="M19.07 4.93a10 10 0 010 14.14" />
+      <path d="M15.54 8.46a5 5 0 010 7.07" />
+    </svg>
+  )
+}
+
+function SoundOffIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+      <line x1="23" y1="9" x2="17" y2="15" />
+      <line x1="17" y1="9" x2="23" y2="15" />
+    </svg>
+  )
+}
+
 export function ShortSwipeFeed({ currentId, allShorts }: ShortSwipeFeedProps) {
   const router = useRouter()
   const { addRecent, toggleLike, isLiked } = useShortHistory()
   const [sheetShort, setSheetShort] = useState<Short | null>(null)
   const [activeIndex, setActiveIndex] = useState(0)
+  const [isMuted, setIsMuted] = useState(true)
   const $container = useRef<HTMLDivElement>(null)
   const $videos = useRef<Map<string, HTMLVideoElement>>(new Map())
 
@@ -67,6 +89,13 @@ export function ShortSwipeFeed({ currentId, allShorts }: ShortSwipeFeedProps) {
       }
     })
   }, [activeIndex, feed])
+
+  // isMuted가 바뀔 때 전체 비디오에 반영
+  useEffect(() => {
+    $videos.current.forEach((video) => {
+      video.muted = isMuted
+    })
+  }, [isMuted])
 
   // IntersectionObserver: 어떤 슬라이드가 보이는지만 감지
   useEffect(() => {
@@ -132,6 +161,14 @@ export function ShortSwipeFeed({ currentId, allShorts }: ShortSwipeFeedProps) {
                 ←
               </button>
             </div>
+
+            <button
+              className={muteButton}
+              onClick={() => setIsMuted((prev) => !prev)}
+              aria-label={isMuted ? '소리 켜기' : '소리 끄기'}
+            >
+              {isMuted ? <SoundOffIcon /> : <SoundOnIcon />}
+            </button>
 
             <div className={bottomArea}>
               <p className={titleText}>{short.title}</p>

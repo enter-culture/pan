@@ -113,3 +113,19 @@ const likeButtonBase = style({
 export const likeButton = style([likeButtonBase])
 
 export const likeButtonActive = style([likeButtonBase])
+
+export const muteButton = style({
+  position: 'absolute',
+  top: vars.spacing.md,
+  right: vars.spacing.md,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  width: '36px',
+  height: '36px',
+  borderRadius: vars.borderRadius.full,
+  backgroundColor: 'rgba(0,0,0,0.45)',
+  border: 'none',
+  cursor: 'pointer',
+  zIndex: 10,
+})
