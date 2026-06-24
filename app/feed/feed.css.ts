@@ -14,12 +14,4 @@ export const grid = style({
   gridTemplateColumns: 'repeat(2, 1fr)',
   gap: vars.spacing.md,
   padding: `0 ${vars.spacing.md} ${vars.spacing.xl}`,
-  '@media': {
-    'screen and (min-width: 768px)': {
-      gridTemplateColumns: 'repeat(3, 1fr)',
-    },
-    'screen and (min-width: 1024px)': {
-      gridTemplateColumns: 'repeat(4, 1fr)',
-    },
-  },
 })

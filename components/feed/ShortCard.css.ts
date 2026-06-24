@@ -27,6 +27,22 @@ export const image = style({
   objectFit: 'cover',
 })
 
+export const likeButton = style({
+  position: 'absolute',
+  bottom: vars.spacing.sm,
+  right: vars.spacing.sm,
+  width: '32px',
+  height: '32px',
+  borderRadius: '50%',
+  border: 'none',
+  padding: 0,
+  backgroundColor: 'rgba(0,0,0,0.45)',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  cursor: 'pointer',
+})
+
 export const playIcon = style({
   position: 'absolute',
   bottom: vars.spacing.sm,

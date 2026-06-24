@@ -62,7 +62,7 @@ export const topBar = style({
 
 export const bottomArea = style({
   position: 'absolute',
-  bottom: 0,
+  bottom: '64px',
   left: 0,
   right: 0,
   paddingTop: vars.spacing.xl,
@@ -95,7 +95,7 @@ export const descriptionText = style({
 
 const likeButtonBase = style({
   position: 'absolute',
-  bottom: vars.spacing.md,
+  bottom: `calc(64px + ${vars.spacing.md})`,
   right: vars.spacing.md,
   display: 'flex',
   alignItems: 'center',
