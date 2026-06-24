@@ -15,8 +15,8 @@ export const container = style({
   scrollSnapType: 'y mandatory',
   backgroundColor: '#000',
   scrollbarWidth: 'none',
-  '::-webkit-scrollbar': {
-    display: 'none',
+  selectors: {
+    '&::-webkit-scrollbar': { display: 'none' },
   },
 })
 

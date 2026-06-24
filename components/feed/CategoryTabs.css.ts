@@ -7,7 +7,9 @@ export const wrapper = style({
   padding: `${vars.spacing.md} ${vars.spacing.md}`,
   overflowX: 'auto',
   scrollbarWidth: 'none',
-  '::-webkit-scrollbar': { display: 'none' },
+  selectors: {
+    '&::-webkit-scrollbar': { display: 'none' },
+  },
 })
 
 export const chip = style({
