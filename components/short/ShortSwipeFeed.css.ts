@@ -68,12 +68,15 @@ export const bottomArea = style({
   bottom: 0,
   left: 0,
   right: 0,
-  padding: `${vars.spacing.xl} ${vars.spacing.md} ${vars.spacing.md}`,
+  paddingTop: vars.spacing.xl,
+  paddingRight: '76px',
+  paddingBottom: vars.spacing.md,
+  paddingLeft: vars.spacing.md,
   background: 'linear-gradient(to top, rgba(0,0,0,0.75) 0%, transparent 100%)',
   zIndex: 10,
   display: 'flex',
   flexDirection: 'column',
-  gap: vars.spacing.sm,
+  gap: vars.spacing.xs,
 })
 
 export const titleText = style({
@@ -83,47 +86,44 @@ export const titleText = style({
   lineHeight: '1.4',
 })
 
-export const actionRow = style({
-  display: 'flex',
-  gap: vars.spacing.sm,
-  alignItems: 'center',
-})
-
-export const likeButton = style({
-  width: '44px',
-  height: '44px',
-  flexShrink: 0,
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  borderRadius: vars.borderRadius.md,
-  border: '1px solid rgba(255,255,255,0.4)',
-  backgroundColor: 'rgba(0,0,0,0.3)',
+export const descriptionText = style({
+  fontSize: vars.fontSize.sm,
+  color: 'rgba(255,255,255,0.8)',
+  whiteSpace: 'nowrap',
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
   cursor: 'pointer',
+  lineHeight: '1.4',
 })
 
-export const likeButtonActive = style({
-  width: '44px',
-  height: '44px',
-  flexShrink: 0,
+const likeButtonBase = style({
+  position: 'absolute',
+  bottom: vars.spacing.md,
+  right: vars.spacing.md,
+  width: '48px',
+  height: '48px',
+  borderRadius: vars.borderRadius.full,
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  borderRadius: vars.borderRadius.md,
-  border: `1px solid ${vars.color.accent}`,
-  backgroundColor: 'rgba(255,77,0,0.2)',
   cursor: 'pointer',
-})
-
-export const detailButton = style({
-  flex: 1,
-  height: '44px',
-  borderRadius: vars.borderRadius.md,
-  backgroundColor: 'rgba(255,255,255,0.2)',
-  border: '1px solid rgba(255,255,255,0.4)',
-  color: vars.color.white,
-  fontSize: vars.fontSize.md,
-  fontWeight: vars.fontWeight.semibold,
-  cursor: 'pointer',
+  zIndex: 10,
   backdropFilter: 'blur(4px)',
+  transition: 'background-color 0.2s ease, border-color 0.2s ease',
 })
+
+export const likeButton = style([
+  likeButtonBase,
+  {
+    backgroundColor: 'rgba(0,0,0,0.4)',
+    border: '1px solid rgba(255,255,255,0.35)',
+  },
+])
+
+export const likeButtonActive = style([
+  likeButtonBase,
+  {
+    backgroundColor: 'rgba(255,77,0,0.25)',
+    border: `1px solid ${vars.color.accent}`,
+  },
+])
