@@ -105,6 +105,8 @@ const likeButtonBase = style({
   background: 'none',
   border: 'none',
   padding: vars.spacing.xs,
+  outline: 'none',
+  WebkitTapHighlightColor: 'transparent',
 })
 
 export const likeButton = style([likeButtonBase])
@@ -124,5 +126,7 @@ export const muteButton = style({
   backgroundColor: 'rgba(0,0,0,0.45)',
   border: 'none',
   cursor: 'pointer',
+  outline: 'none',
+  WebkitTapHighlightColor: 'transparent',
   zIndex: 10,
 })
