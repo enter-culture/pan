@@ -15,7 +15,7 @@ export const nav = style({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-around',
-  zIndex: 100,
+  zIndex: 120,
 })
 
 export const navItem = style({
