@@ -15,7 +15,6 @@ import {
   hashtags,
   sheet,
   title,
-  touristButton,
 } from './ShortInfoSheet.css'
 
 interface ShortInfoSheetProps {
@@ -41,9 +40,6 @@ export function ShortInfoSheet({ short, onClose }: ShortInfoSheetProps) {
           </div>
           <Link href={`/culture/${short.id}`} className={cultureButton}>
             관련 체험/축제 보기
-          </Link>
-          <Link href="/tourist" className={touristButton}>
-            관광지 추천
           </Link>
         </div>
       </div>

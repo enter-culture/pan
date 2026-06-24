@@ -94,20 +94,3 @@ export const cultureButton = style({
   },
 })
 
-export const touristButton = style({
-  display: 'block',
-  width: '100%',
-  padding: vars.spacing.md,
-  backgroundColor: vars.color.background,
-  color: vars.color.primary,
-  borderRadius: vars.borderRadius.md,
-  fontSize: vars.fontSize.md,
-  fontWeight: vars.fontWeight.semibold,
-  textAlign: 'center',
-  cursor: 'pointer',
-  border: `1.5px solid ${vars.color.primary}`,
-  transition: 'all 0.15s',
-  ':hover': {
-    backgroundColor: vars.color.surface,
-  },
-})
