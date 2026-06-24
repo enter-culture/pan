@@ -36,21 +36,12 @@ export const container = style({
   },
 })
 
-export const logo = style({
-  fontSize: '56px',
-  fontWeight: vars.fontWeight.bold,
-  color: vars.color.white,
-  letterSpacing: '-1px',
-  textShadow: '0 2px 14px rgba(0, 0, 0, 0.42)',
-  animation: `${fadeIn} 0.6s ease forwards`,
-})
-
 export const tagline = style({
   fontSize: vars.fontSize.lg,
   color: 'rgba(255,255,255,0.85)',
   textAlign: 'center',
   lineHeight: '1.6',
   textShadow: '0 2px 12px rgba(0, 0, 0, 0.56)',
-  animation: `${fadeIn} 0.6s ease 0.2s forwards`,
+  animation: `${fadeIn} 0.6s ease 1s forwards`,
   opacity: 0,
 })

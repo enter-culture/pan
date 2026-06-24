@@ -3,7 +3,9 @@
 import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 
-import { container, logo, tagline } from './intro.css'
+import { PanDraw } from '@/components/intro/PanDraw'
+
+import { container, tagline } from './intro.css'
 
 export default function IntroPage() {
   const router = useRouter()
@@ -11,14 +13,14 @@ export default function IntroPage() {
   useEffect(() => {
     const timer = setTimeout(() => {
       router.replace('/feed')
-    }, 2000)
+    }, 3200)
 
     return () => clearTimeout(timer)
   }, [router])
 
   return (
     <div className={container}>
-      <h1 className={logo}>판(PAN)</h1>
+      <PanDraw />
       <p className={tagline}>
         당신의 취향을
         <br />
