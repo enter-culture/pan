@@ -53,7 +53,7 @@ const NAV_ITEMS: NavItem[] = [
 export function BottomNav() {
   const pathname = usePathname()
 
-  if (pathname === '/') return null
+  if (pathname === '/' || pathname.startsWith('/short/')) return null
 
   return (
     <nav className={nav}>
