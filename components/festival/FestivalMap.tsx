@@ -36,22 +36,7 @@ export function FestivalMap({ latitude, longitude, name }: FestivalMapProps) {
       marker.setMap(map)
     }
 
-    if (window.kakao?.maps) {
-      window.kakao.maps.load(initMap)
-      return
-    }
-
-    const script = document.createElement('script')
-    script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_MAP_KEY}&autoload=false`
-    script.async = true
-    document.head.appendChild(script)
-    script.onload = () => window.kakao.maps.load(initMap)
-
-    return () => {
-      if (document.head.contains(script)) {
-        document.head.removeChild(script)
-      }
-    }
+    window.kakao.maps.load(initMap)
   }, [latitude, longitude])
 
   return (
