@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+
 import { Dancing_Script } from 'next/font/google'
 
 import { getShorts } from '@/services/shorts'
