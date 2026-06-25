@@ -36,7 +36,9 @@ export function FestivalMap({ latitude, longitude, name }: FestivalMapProps) {
       marker.setMap(map)
     }
 
-    window.kakao.maps.load(initMap)
+    if (window.kakao?.maps) {
+      window.kakao.maps.load(initMap)
+    }
   }, [latitude, longitude])
 
   return (
