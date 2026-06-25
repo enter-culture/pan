@@ -15,7 +15,12 @@ const fadeIn = keyframes({
 
 export const container = style({
   position: 'fixed',
-  inset: 0,
+  top: 0,
+  bottom: 0,
+  left: '50%',
+  transform: 'translateX(-50%)',
+  width: '100%',
+  maxWidth: '430px',
   boxSizing: 'border-box',
   backgroundImage:
     'linear-gradient(180deg, rgba(4, 18, 28, 0.18) 0%, rgba(4, 18, 28, 0.04) 42%, rgba(18, 10, 4, 0.4) 100%), url("/intro-heritage.jpg")',
