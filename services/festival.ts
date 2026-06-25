@@ -71,7 +71,7 @@ export async function getFestivals(heritageId?: string): Promise<Festival[]> {
      FROM heritage
      WHERE content_type = ANY($1)
        AND ($2::text IS NULL OR region = (
-         SELECT region FROM heritage WHERE id = $2
+         SELECT region FROM heritage WHERE id = $2::uuid
        ))
      ORDER BY (image_url IS NULL), content_type, name
      LIMIT 100`,
@@ -84,7 +84,7 @@ export async function getFestivalById(id: string): Promise<Festival | null> {
   const { rows } = await pool.query<HeritageRow>(
     `SELECT ${SELECT_COLUMNS}
      FROM heritage
-     WHERE id = $1`,
+     WHERE id = $1::uuid`,
     [id],
   )
   return rows[0] ? toFestival(rows[0]) : null
