@@ -60,9 +60,9 @@ export default async function FestivalPage({ searchParams }: PageProps) {
                   </span>
                   <h3 className={cardName}>{festival.name}</h3>
                   {(festival.region || festival.address) && (
-                    <p className={cardMeta}>📍 {festival.address ?? festival.region}</p>
+                    <p className={cardMeta}>{festival.address ?? festival.region}</p>
                   )}
-                  {period && <p className={cardPeriod}>🗓 {period}</p>}
+                  {period && <p className={cardPeriod}>{period}</p>}
                 </div>
               </Link>
             )
