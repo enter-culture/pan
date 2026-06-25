@@ -3,7 +3,6 @@ import pool from '@/lib/db'
 export interface RelatedHeritage {
   name: string
   description: string | null
-  imageUrl: string | null
 }
 
 export interface Festival {
@@ -41,7 +40,6 @@ interface HeritageRow {
   longitude: number | null
   related_name: string | null
   related_description: string | null
-  related_image_url: string | null
 }
 
 // DB가 DATE 컬럼을 문자열 또는 Date 객체로 반환할 수 있어 둘 다 안전하게 처리
@@ -79,7 +77,7 @@ function toFestival(row: HeritageRow): Festival {
     latitude: row.latitude ? Number(row.latitude) : null,
     longitude: row.longitude ? Number(row.longitude) : null,
     relatedHeritage: row.related_name
-      ? { name: row.related_name, description: row.related_description, imageUrl: row.related_image_url }
+      ? { name: row.related_name, description: row.related_description }
       : null,
   }
 }
@@ -106,11 +104,10 @@ export async function getFestivalById(id: string): Promise<Festival | null> {
             h.description, h.detail_url, h.phone, h.business_hours,
             h.start_date, h.end_date, h.latitude, h.longitude,
             k.name AS related_name,
-            k.description AS related_description,
-            k.image_url AS related_image_url
+            k.description AS related_description
      FROM heritage h
      LEFT JOIN LATERAL (
-       SELECT name, description, image_url
+       SELECT name, description
        FROM heritage
        WHERE source = 'khs_spatial'
          AND h.name ILIKE '%' || name || '%'
