@@ -93,26 +93,6 @@ export const descriptionText = style({
   lineHeight: '1.4',
 })
 
-const likeButtonBase = style({
-  position: 'absolute',
-  bottom: `calc(64px + ${vars.spacing.md})`,
-  right: vars.spacing.md,
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  cursor: 'pointer',
-  zIndex: 10,
-  background: 'none',
-  border: 'none',
-  padding: vars.spacing.xs,
-  outline: 'none',
-  WebkitTapHighlightColor: 'transparent',
-})
-
-export const likeButton = style([likeButtonBase])
-
-export const likeButtonActive = style([likeButtonBase])
-
 export const muteButton = style({
   position: 'absolute',
   top: vars.spacing.md,
