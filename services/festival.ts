@@ -1,5 +1,11 @@
 import pool from '@/lib/db'
 
+export interface RelatedHeritage {
+  name: string
+  description: string | null
+  imageUrl: string | null
+}
+
 export interface Festival {
   id: string
   name: string
@@ -15,6 +21,7 @@ export interface Festival {
   endDate: string | null
   latitude: number | null
   longitude: number | null
+  relatedHeritage: RelatedHeritage | null
 }
 
 interface HeritageRow {
@@ -32,6 +39,9 @@ interface HeritageRow {
   end_date: string | Date | null
   latitude: number | null
   longitude: number | null
+  related_name: string | null
+  related_description: string | null
+  related_image_url: string | null
 }
 
 // DB가 DATE 컬럼을 문자열 또는 Date 객체로 반환할 수 있어 둘 다 안전하게 처리
@@ -68,6 +78,9 @@ function toFestival(row: HeritageRow): Festival {
     endDate: formatDate(row.end_date),
     latitude: row.latitude ? Number(row.latitude) : null,
     longitude: row.longitude ? Number(row.longitude) : null,
+    relatedHeritage: row.related_name
+      ? { name: row.related_name, description: row.related_description, imageUrl: row.related_image_url }
+      : null,
   }
 }
 
@@ -89,11 +102,22 @@ export async function getFestivals(heritageId?: string): Promise<Festival[]> {
 
 export async function getFestivalById(id: string): Promise<Festival | null> {
   const { rows } = await pool.query<HeritageRow>(
-    `SELECT id, name, content_type, region, address, image_url,
-            description, detail_url, phone, business_hours, start_date, end_date,
-            latitude, longitude
+    `SELECT h.id, h.name, h.content_type, h.region, h.address, h.image_url,
+            h.description, h.detail_url, h.phone, h.business_hours,
+            h.start_date, h.end_date, h.latitude, h.longitude,
+            k.name AS related_name,
+            k.description AS related_description,
+            k.image_url AS related_image_url
      FROM heritage h
-     WHERE id = $1::uuid`,
+     LEFT JOIN LATERAL (
+       SELECT name, description, image_url
+       FROM heritage
+       WHERE source = 'khs_spatial'
+         AND h.name ILIKE '%' || name || '%'
+       ORDER BY length(name) DESC
+       LIMIT 1
+     ) k ON true
+     WHERE h.id = $1::uuid`,
     [id],
   )
   return rows[0] ? toFestival(rows[0]) : null

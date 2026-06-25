@@ -96,6 +96,27 @@ export default async function FestivalDetailPage({ params }: PageProps) {
 
         {festival.description && <p className={description}>{festival.description}</p>}
 
+        {festival.relatedHeritage && (
+          <div className={infoBlock}>
+            <h2 style={{ fontSize: '15px', fontWeight: 600, color: 'var(--color-primary, #1a1a1a)', margin: 0 }}>
+              관련 무형유산
+            </h2>
+            {festival.relatedHeritage.imageUrl && (
+              <img
+                src={festival.relatedHeritage.imageUrl}
+                alt={festival.relatedHeritage.name}
+                style={{ width: '100%', aspectRatio: '16/9', objectFit: 'cover', borderRadius: '8px' }}
+              />
+            )}
+            <p style={{ fontSize: '14px', fontWeight: 600, color: 'var(--color-primary, #1a1a1a)', margin: 0 }}>
+              {festival.relatedHeritage.name}
+            </p>
+            {festival.relatedHeritage.description && (
+              <p className={description}>{festival.relatedHeritage.description}</p>
+            )}
+          </div>
+        )}
+
         {festival.latitude && festival.longitude && (
           <FestivalMap
             latitude={festival.latitude}
