@@ -83,8 +83,15 @@ export async function getFestivals(heritageId?: string): Promise<Festival[]> {
 
 export async function getFestivalById(id: string): Promise<Festival | null> {
   const { rows } = await pool.query<HeritageRow>(
-    `SELECT ${SELECT_COLUMNS}
-     FROM heritage
+    `SELECT id, name, content_type, region, address, image_url,
+            COALESCE(description, (
+              SELECT v.description FROM videos v
+              WHERE h.name ILIKE '%' || v.title || '%'
+              ORDER BY length(v.title) DESC
+              LIMIT 1
+            )) AS description,
+            detail_url, phone, business_hours, start_date, end_date
+     FROM heritage h
      WHERE id = $1::uuid`,
     [id],
   )
