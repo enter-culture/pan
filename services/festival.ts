@@ -70,9 +70,10 @@ export async function getFestivals(heritageId?: string): Promise<Festival[]> {
     `SELECT ${SELECT_COLUMNS}
      FROM heritage
      WHERE content_type = ANY($1)
-       AND ($2::text IS NULL OR region = (
-         SELECT region FROM heritage WHERE id = $2::uuid
-       ))
+       AND (
+         $2::text IS NULL
+         OR name ILIKE '%' || (SELECT name FROM heritage WHERE id = $2::uuid) || '%'
+       )
      ORDER BY (image_url IS NULL), content_type, name
      LIMIT 100`,
     [FESTIVAL_TYPES, heritageId ?? null],
