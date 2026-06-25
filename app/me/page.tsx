@@ -7,7 +7,7 @@ import type { Short } from '@/types'
 import { ShortCard } from '@/components/feed/ShortCard'
 import { useShortHistory } from '@/hooks/useShortHistory'
 
-import { emptyState, grid, page, section, sectionCount, sectionHeader, sectionTitle } from './me.css'
+import { emptyState, grid, page, recentCardItem, recentRow, section, sectionCount, sectionHeader, sectionTitle } from './me.css'
 
 function toShorts(ids: string[], allShorts: Short[]): Short[] {
   return ids.flatMap((id) => {
@@ -42,9 +42,11 @@ export default function MePage() {
         {recentShorts.length === 0 ? (
           <p className={emptyState}>아직 본 숏폼이 없어요<br />피드에서 숏폼을 감상해보세요</p>
         ) : (
-          <div className={grid}>
+          <div className={recentRow}>
             {recentShorts.map((short) => (
-              <ShortCard key={short.id} short={short} />
+              <div key={short.id} className={recentCardItem}>
+                <ShortCard short={short} />
+              </div>
             ))}
           </div>
         )}

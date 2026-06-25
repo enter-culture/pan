@@ -47,6 +47,22 @@ export const grid = style({
   },
 })
 
+export const recentRow = style({
+  display: 'flex',
+  gap: vars.spacing.sm,
+  overflowX: 'auto',
+  scrollSnapType: 'x mandatory',
+  scrollbarWidth: 'none',
+  '::-webkit-scrollbar': {
+    display: 'none',
+  },
+})
+
+export const recentCardItem = style({
+  flex: '0 0 90px',
+  scrollSnapAlign: 'start',
+})
+
 export const emptyState = style({
   padding: `${vars.spacing.xl} 0`,
   textAlign: 'center',
