@@ -25,28 +25,34 @@ export function FestivalMap({ latitude, longitude, name }: FestivalMapProps) {
   const containerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
+    const initMap = () => {
+      if (!containerRef.current) return
+      const coords = new window.kakao.maps.LatLng(latitude, longitude)
+      const map = new window.kakao.maps.Map(containerRef.current, {
+        center: coords,
+        level: 4,
+      })
+      const marker = new window.kakao.maps.Marker({ position: coords })
+      marker.setMap(map)
+    }
+
+    if (window.kakao?.maps) {
+      window.kakao.maps.load(initMap)
+      return
+    }
+
     const script = document.createElement('script')
     script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_MAP_KEY}&autoload=false`
     script.async = true
     document.head.appendChild(script)
-
-    script.onload = () => {
-      window.kakao.maps.load(() => {
-        if (!containerRef.current) return
-        const coords = new window.kakao.maps.LatLng(latitude, longitude)
-        const map = new window.kakao.maps.Map(containerRef.current, {
-          center: coords,
-          level: 4,
-        })
-        const marker = new window.kakao.maps.Marker({ position: coords })
-        marker.setMap(map)
-      })
-    }
+    script.onload = () => window.kakao.maps.load(initMap)
 
     return () => {
-      document.head.removeChild(script)
+      if (document.head.contains(script)) {
+        document.head.removeChild(script)
+      }
     }
-  }, [latitude, longitude, name])
+  }, [latitude, longitude])
 
   return (
     <div
