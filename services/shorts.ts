@@ -1,7 +1,6 @@
 import type { Category, Short } from '@/types'
 
 import pool from '@/lib/db'
-import { getPresignedUrl } from '@/lib/r2'
 
 interface VideoRow {
   id: number
@@ -23,13 +22,15 @@ const CATEGORY_MAP: Record<string, Exclude<Category, '전체'>> = {
   '줄타기': '축제',
 }
 
-function toShort(row: VideoRow, videoUrl: string): Short {
+const R2_BASE_URL = process.env.R2_BASE_URL!
+
+function toShort(row: VideoRow): Short {
   const category: Exclude<Category, '전체'> = CATEGORY_MAP[row.title] ?? '전통'
   return {
     id: String(row.id),
     title: row.title,
     thumbnail: '',
-    videoUrl,
+    videoUrl: `${R2_BASE_URL}/${row.r2key}`,
     category,
     description: row.description ?? '',
     hashtags: [row.title, row.region, row.category].filter(Boolean) as string[],
@@ -40,16 +41,8 @@ function toShort(row: VideoRow, videoUrl: string): Short {
 
 export async function getShorts(category?: Category): Promise<Short[]> {
   const { rows } = await pool.query<VideoRow>('SELECT * FROM videos ORDER BY id')
-  const results = await Promise.allSettled(rows.map((row) => getPresignedUrl(row.r2key)))
-  const shorts = rows.map((row, i) => {
-    const result = results[i]
-    const videoUrl = result.status === 'fulfilled' ? result.value : `/api/video/${row.id}`
-    return toShort(row, videoUrl)
-  })
-
-  if (!category || category === '전체') {
-    return shorts
-  }
+  const shorts = rows.map(toShort)
+  if (!category || category === '전체') return shorts
   return shorts.filter((s) => s.category === category)
 }
 
@@ -58,8 +51,7 @@ export async function getShortById(id: string): Promise<Short> {
   if (!rows[0]) {
     throw new Error('Short not found')
   }
-  const url = await getPresignedUrl(rows[0].r2key)
-  return toShort(rows[0], url)
+  return toShort(rows[0])
 }
 
 export async function searchShorts(query: string): Promise<Short[]> {
@@ -74,6 +66,5 @@ export async function searchShorts(query: string): Promise<Short[]> {
      ORDER BY id`,
     [`%${q}%`],
   )
-  const urls = await Promise.all(rows.map((row) => getPresignedUrl(row.r2key)))
-  return rows.map((row, i) => toShort(row, urls[i]))
+  return rows.map(toShort)
 }
