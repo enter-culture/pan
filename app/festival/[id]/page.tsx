@@ -39,6 +39,10 @@ export default async function FestivalDetailPage({ params }: PageProps) {
     notFound()
   }
 
+  const [venue, address] = festival.address?.includes(' · ')
+    ? festival.address.split(' · ')
+    : [null, festival.address ?? null]
+
   const period = festival.startDate
     ? festival.endDate && festival.endDate !== festival.startDate
       ? `${festival.startDate} ~ ${festival.endDate}`
@@ -68,10 +72,16 @@ export default async function FestivalDetailPage({ params }: PageProps) {
               <span className={infoValue}>{festival.region}</span>
             </div>
           )}
-          {festival.address && (
+          {venue && (
+            <div className={infoRow}>
+              <span className={infoLabel}>장소</span>
+              <span className={infoValue}>{venue}</span>
+            </div>
+          )}
+          {address && (
             <div className={infoRow}>
               <span className={infoLabel}>주소</span>
-              <span className={infoValue}>{festival.address}</span>
+              <span className={infoValue}>{address}</span>
             </div>
           )}
           {period && (
@@ -96,21 +106,7 @@ export default async function FestivalDetailPage({ params }: PageProps) {
 
         {festival.description && <p className={description}>{festival.description}</p>}
 
-        {festival.relatedHeritage && (
-          <div className={infoBlock}>
-            <h2 style={{ fontSize: '15px', fontWeight: 600, color: 'var(--color-primary, #1a1a1a)', margin: 0 }}>
-              관련 무형유산
-            </h2>
-            <p style={{ fontSize: '14px', fontWeight: 600, color: 'var(--color-primary, #1a1a1a)', margin: 0 }}>
-              {festival.relatedHeritage.name}
-            </p>
-            {festival.relatedHeritage.description && (
-              <p className={description}>{festival.relatedHeritage.description}</p>
-            )}
-          </div>
-        )}
-
-        {festival.latitude && festival.longitude && (
+{festival.latitude && festival.longitude && (
           <FestivalMap
             latitude={festival.latitude}
             longitude={festival.longitude}
