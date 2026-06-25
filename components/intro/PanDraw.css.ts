@@ -12,7 +12,7 @@ const writeSignature = keyframes({
 })
 
 export const lottieWrap = style({
-  width: 'clamp(250px, 68vw, 340px)',
+  width: 'clamp(280px, 82vw, 420px)',
   opacity: 0,
   animation: `${writeSignature} 0.8s cubic-bezier(0.16, 0.82, 0.28, 1) 80ms forwards`,
   '@media': {

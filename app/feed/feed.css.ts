@@ -4,7 +4,7 @@ import { vars } from '@/styles/theme.css'
 
 export const header = style({
   padding: `${vars.spacing.lg} ${vars.spacing.md} ${vars.spacing.sm}`,
-  fontSize: vars.fontSize.xl,
+  fontSize: '36px',
   fontWeight: vars.fontWeight.bold,
   color: vars.color.primary,
 })
