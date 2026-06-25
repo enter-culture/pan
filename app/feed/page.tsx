@@ -1,11 +1,11 @@
-export const dynamic = 'force-dynamic'
-
 import { Dancing_Script } from 'next/font/google'
 
 import { getShorts } from '@/services/shorts'
 
 import { FeedClient } from './FeedClient'
 import { header } from './feed.css'
+
+export const dynamic = 'force-dynamic'
 
 const dancingScript = Dancing_Script({
   subsets: ['latin'],

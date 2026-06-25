@@ -20,7 +20,7 @@ export const sheet = style({
   left: '50%',
   transform: 'translateX(-50%)',
   width: '100%',
-  maxWidth: '1280px',
+  maxWidth: '430px',
   maxHeight: '75vh',
   backgroundColor: vars.color.white,
   borderRadius: `${vars.borderRadius.lg} ${vars.borderRadius.lg} 0 0`,
