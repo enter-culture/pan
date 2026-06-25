@@ -3,6 +3,8 @@ import { notFound } from 'next/navigation'
 import { ShortSwipeFeed } from '@/components/short/ShortSwipeFeed'
 import { getShortById, getShorts } from '@/services/shorts'
 
+export const dynamic = 'force-dynamic'
+
 interface PageProps {
   params: Promise<{ id: string }>
 }
