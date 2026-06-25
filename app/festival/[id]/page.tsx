@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation'
 
+import { FestivalMap } from '@/components/festival/FestivalMap'
 import { getFestivalById } from '@/services/festival'
 
 import { BackHeader } from '../BackHeader'
@@ -94,6 +95,14 @@ export default async function FestivalDetailPage({ params }: PageProps) {
         </div>
 
         {festival.description && <p className={description}>{festival.description}</p>}
+
+        {festival.latitude && festival.longitude && (
+          <FestivalMap
+            latitude={festival.latitude}
+            longitude={festival.longitude}
+            name={festival.name}
+          />
+        )}
 
         {festival.detailUrl && (
           <a href={festival.detailUrl} target="_blank" rel="noopener noreferrer" className={externalLink}>

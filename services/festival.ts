@@ -13,6 +13,8 @@ export interface Festival {
   businessHours: string | null
   startDate: string | null
   endDate: string | null
+  latitude: number | null
+  longitude: number | null
 }
 
 interface HeritageRow {
@@ -28,6 +30,8 @@ interface HeritageRow {
   business_hours: string | null
   start_date: string | Date | null
   end_date: string | Date | null
+  latitude: number | null
+  longitude: number | null
 }
 
 // DB가 DATE 컬럼을 문자열 또는 Date 객체로 반환할 수 있어 둘 다 안전하게 처리
@@ -62,6 +66,8 @@ function toFestival(row: HeritageRow): Festival {
     businessHours: row.business_hours,
     startDate: formatDate(row.start_date),
     endDate: formatDate(row.end_date),
+    latitude: row.latitude ? Number(row.latitude) : null,
+    longitude: row.longitude ? Number(row.longitude) : null,
   }
 }
 
@@ -90,7 +96,8 @@ export async function getFestivalById(id: string): Promise<Festival | null> {
               ORDER BY length(v.title) DESC
               LIMIT 1
             )) AS description,
-            detail_url, phone, business_hours, start_date, end_date
+            detail_url, phone, business_hours, start_date, end_date,
+            latitude, longitude
      FROM heritage h
      WHERE id = $1::uuid`,
     [id],
