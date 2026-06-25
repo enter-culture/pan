@@ -33,21 +33,7 @@ export const sectionCount = style({
   fontWeight: vars.fontWeight.regular,
 })
 
-export const grid = style({
-  display: 'grid',
-  gridTemplateColumns: 'repeat(2, 1fr)',
-  gap: vars.spacing.sm,
-  '@media': {
-    'screen and (min-width: 768px)': {
-      gridTemplateColumns: 'repeat(3, 1fr)',
-    },
-    'screen and (min-width: 1024px)': {
-      gridTemplateColumns: 'repeat(4, 1fr)',
-    },
-  },
-})
-
-export const recentRow = style({
+export const scrollRow = style({
   display: 'flex',
   gap: vars.spacing.sm,
   overflowX: 'auto',
@@ -58,8 +44,8 @@ export const recentRow = style({
   },
 })
 
-export const recentCardItem = style({
-  flex: '0 0 90px',
+export const scrollCardItem = style({
+  flex: '0 0 calc((100% - 8px) / 2)',
   scrollSnapAlign: 'start',
 })
 
