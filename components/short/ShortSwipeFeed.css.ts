@@ -110,3 +110,46 @@ export const muteButton = style({
   WebkitTapHighlightColor: 'transparent',
   zIndex: 10,
 })
+
+export const sideActions = style({
+  position: 'absolute',
+  right: vars.spacing.md,
+  bottom: '80px',
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  gap: vars.spacing.sm,
+  zIndex: 10,
+})
+
+export const likeButton = style({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+  gap: '4px',
+  width: '44px',
+  height: '44px',
+  borderRadius: vars.borderRadius.full,
+  backgroundColor: 'rgba(0,0,0,0.45)',
+  border: 'none',
+  cursor: 'pointer',
+  outline: 'none',
+  WebkitTapHighlightColor: 'transparent',
+})
+
+export const likeButtonActive = style({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+  gap: '4px',
+  width: '44px',
+  height: '44px',
+  borderRadius: vars.borderRadius.full,
+  backgroundColor: 'rgba(255,77,0,0.25)',
+  border: 'none',
+  cursor: 'pointer',
+  outline: 'none',
+  WebkitTapHighlightColor: 'transparent',
+})

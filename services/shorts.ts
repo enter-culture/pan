@@ -11,21 +11,18 @@ interface VideoRow {
   region: string | null
   r2key: string
   heritage_id: string | null
+  sort_order: number | null
   created_at: string
 }
 
-const CATEGORY_MAP: Record<string, Exclude<Category, '전체'>> = {
-  '강강술래': '춤',
-  '하회별신굿탈놀이': '춤',
-  '판소리': '음악',
-  '아리랑': '음악',
-  '줄타기': '축제',
-}
+const VALID_CATEGORIES = new Set<Exclude<Category, '전체'>>(['춤', '음악', '음식', '축제', '전통'])
 
 const R2_BASE_URL = process.env.R2_BASE_URL!
 
 function toShort(row: VideoRow): Short {
-  const category: Exclude<Category, '전체'> = CATEGORY_MAP[row.title] ?? '전통'
+  const category: Exclude<Category, '전체'> = VALID_CATEGORIES.has(row.category as Exclude<Category, '전체'>)
+    ? (row.category as Exclude<Category, '전체'>)
+    : '전통'
   return {
     id: String(row.id),
     title: row.title,
@@ -40,7 +37,7 @@ function toShort(row: VideoRow): Short {
 }
 
 export async function getShorts(category?: Category): Promise<Short[]> {
-  const { rows } = await pool.query<VideoRow>('SELECT * FROM videos ORDER BY id')
+  const { rows } = await pool.query<VideoRow>('SELECT * FROM videos ORDER BY sort_order ASC NULLS LAST, id ASC')
   const shorts = rows.map(toShort)
   if (!category || category === '전체') return shorts
   return shorts.filter((s) => s.category === category)
@@ -63,7 +60,7 @@ export async function searchShorts(query: string): Promise<Short[]> {
      WHERE LOWER(title) LIKE $1
         OR LOWER(description) LIKE $1
         OR LOWER(region) LIKE $1
-     ORDER BY id`,
+     ORDER BY sort_order ASC NULLS LAST, id ASC`,
     [`%${q}%`],
   )
   return rows.map(toShort)
