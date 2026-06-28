@@ -1,17 +1,17 @@
-'use client'
-
-import Lottie from 'lottie-react'
+import Image from 'next/image'
 
 import { lottieWrap } from './PanDraw.css'
-import animationData from './pan-intro.json'
 
 export function PanDraw() {
   return (
     <div className={lottieWrap}>
-      <Lottie
-        animationData={animationData}
-        loop={false}
-        autoplay
+      <Image
+        src='/intro/pan-signature-joseon.png'
+        alt='pan'
+        width={2024}
+        height={685}
+        preload
+        draggable={false}
       />
     </div>
   )
