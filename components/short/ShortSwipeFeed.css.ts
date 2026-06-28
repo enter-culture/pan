@@ -114,12 +114,12 @@ export const muteButton = style({
 export const sideActions = style({
   position: 'absolute',
   right: vars.spacing.md,
-  bottom: '80px',
+  bottom: '100px',
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
   gap: vars.spacing.sm,
-  zIndex: 10,
+  zIndex: 20,
 })
 
 export const likeButton = style({
@@ -130,8 +130,7 @@ export const likeButton = style({
   gap: '4px',
   width: '44px',
   height: '44px',
-  borderRadius: vars.borderRadius.full,
-  backgroundColor: 'rgba(0,0,0,0.45)',
+  background: 'none',
   border: 'none',
   cursor: 'pointer',
   outline: 'none',
@@ -146,8 +145,7 @@ export const likeButtonActive = style({
   gap: '4px',
   width: '44px',
   height: '44px',
-  borderRadius: vars.borderRadius.full,
-  backgroundColor: 'rgba(255,77,0,0.25)',
+  background: 'none',
   border: 'none',
   cursor: 'pointer',
   outline: 'none',

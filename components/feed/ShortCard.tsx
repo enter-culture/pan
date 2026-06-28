@@ -4,7 +4,7 @@ import type { Short } from '@/types'
 
 import Link from 'next/link'
 
-import { card, image, imageWrapper, title } from './ShortCard.css'
+import { card, description, image, imageWrapper, infoOverlay, title } from './ShortCard.css'
 
 interface ShortCardProps {
   short: Short
@@ -26,8 +26,11 @@ export function ShortCard({ short }: ShortCardProps) {
             }}
           />
         ) : null}
+        <div className={infoOverlay}>
+          <p className={title}>{short.title}</p>
+          {short.description && <p className={description}>{short.description}</p>}
+        </div>
       </div>
-      <p className={title}>{short.title}</p>
     </Link>
   )
 }

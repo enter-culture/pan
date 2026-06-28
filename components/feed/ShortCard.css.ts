@@ -41,14 +41,36 @@ export const playIcon = style({
   pointerEvents: 'none',
 })
 
+export const infoOverlay = style({
+  position: 'absolute',
+  bottom: 0,
+  left: 0,
+  right: 0,
+  padding: `${vars.spacing.xl} ${vars.spacing.sm} ${vars.spacing.sm}`,
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '2px',
+  background: 'linear-gradient(to top, rgba(0,0,0,0.75) 0%, transparent 100%)',
+  pointerEvents: 'none',
+})
+
 export const title = style({
-  padding: `${vars.spacing.sm} ${vars.spacing.xs}`,
   fontSize: vars.fontSize.sm,
   fontWeight: vars.fontWeight.medium,
-  color: vars.color.primary,
+  color: vars.color.white,
   lineHeight: '1.4',
   display: '-webkit-box',
   WebkitLineClamp: 2,
+  WebkitBoxOrient: 'vertical',
+  overflow: 'hidden',
+})
+
+export const description = style({
+  fontSize: vars.fontSize.xs,
+  color: 'rgba(255,255,255,0.7)',
+  lineHeight: '1.4',
+  display: '-webkit-box',
+  WebkitLineClamp: 1,
   WebkitBoxOrient: 'vertical',
   overflow: 'hidden',
 })
