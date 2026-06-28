@@ -21,24 +21,11 @@ export const container = style({
   transform: 'translateX(-50%)',
   width: '100%',
   maxWidth: '430px',
-  boxSizing: 'border-box',
-  backgroundImage:
-    'linear-gradient(180deg, rgba(4, 18, 28, 0.18) 0%, rgba(4, 18, 28, 0.04) 42%, rgba(18, 10, 4, 0.4) 100%), url("/intro-heritage.jpg")',
-  backgroundPosition: 'center',
-  backgroundRepeat: 'no-repeat',
-  backgroundSize: 'cover',
+  backgroundColor: '#000',
   display: 'flex',
-  flexDirection: 'column',
   alignItems: 'center',
-  justifyContent: 'flex-start',
-  gap: vars.spacing.lg,
-  padding: 'clamp(132px, 23svh, 220px) 24px 48px',
+  justifyContent: 'center',
   zIndex: 200,
-  '@media': {
-    '(max-height: 600px)': {
-      paddingTop: '64px',
-    },
-  },
 })
 
 export const tagline = style({
